@@ -15,14 +15,14 @@ span {
   top: 50%;
   transform: translate(-50%, -50%);
   display: block;
-  color: #cf1b1b;
+  color: #8011a6;
   font-size: 124px;
   letter-spacing: 8px;
   cursor: pointer;
 }
 
 span::before {
-  content: "Gülzar";
+  content: "GÜLZAR";
   position: absolute;
   color: transparent;
   background-image: repeating-linear-gradient(45deg, transparent 0, transparent 2px, white 2px, white 4px);
@@ -34,7 +34,7 @@ span::before {
 }
 
 span::after {
-  content: "Gülzar";
+  content: "GÜLZAR";
   position: absolute;
   color: transparent;
   background-image: repeating-linear-gradient(135deg, transparent 0, transparent 2px, white 2px, white 4px);

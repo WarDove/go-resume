@@ -17,7 +17,7 @@ func Resume(w http.ResponseWriter, r *http.Request) {
 	} else if r.Host == "kamran.huseynov.net" || r.Host == "www.kamran.huseynov.net" {
 		tpl.ExecuteTemplate(w, "kamran.gohtml", nil)
 	} else {
-		http.NotFoundHandler()
+		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 	}
 
 }
