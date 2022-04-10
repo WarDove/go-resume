@@ -1,0 +1,117 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@1,900&display=swap");
+body {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+  background: black;
+  height: 100vh;
+  width: 100vw;
+}
+
+span {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: block;
+  color: #cf1b1b;
+  font-size: 124px;
+  letter-spacing: 8px;
+  cursor: pointer;
+}
+
+span::before {
+  content: "Gülzar";
+  position: absolute;
+  color: transparent;
+  background-image: repeating-linear-gradient(45deg, transparent 0, transparent 2px, white 2px, white 4px);
+  -webkit-background-clip: text;
+  top: 0px;
+  left: 0;
+  z-index: -1;
+  transition: 1s;
+}
+
+span::after {
+  content: "Gülzar";
+  position: absolute;
+  color: transparent;
+  background-image: repeating-linear-gradient(135deg, transparent 0, transparent 2px, white 2px, white 4px);
+  -webkit-background-clip: text;
+  top: 0px;
+  left: 0px;
+  transition: 1s;
+}
+
+span:hover:before {
+  top: 10px;
+  left: 10px;
+}
+
+span:hover:after {
+  top: -10px;
+  left: -10px;
+}
+
+*, *:before, *:after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #FFC568;
+  font-size: 62.5%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+@media screen and (max-width: 520px) {
+  html, body {
+    /* don't know how to set default units to rem in mojs :(( */
+  }
+}
+
+.container {
+  width: 50rem;
+  height: 20rem;
+  position: relative;
+}
+
+.svg-container {
+  z-index: 2;
+  position: absolute;
+}
+
+.mo-container {
+  width: 100%;
+  height: 100%;
+}
+
+.line {
+  fill: none;
+  stroke: #FFFFFF;
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-miterlimit: 10;
+}
+
+.lttr {
+  fill: #763C8C;
+}
+
+.sound {
+  position: fixed;
+  color: #763C8C;
+  font-size: 1.6rem;
+  bottom: 1rem;
+  right: 1rem;
+  text-decoration: underline;
+  cursor: default;
+}
+.sound--off {
+  text-decoration: line-through;
+}
