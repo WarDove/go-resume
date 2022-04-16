@@ -23,6 +23,8 @@ func checkErr(err error) {
 func Resume(w http.ResponseWriter, r *http.Request) {
 	if r.Host == "huseynov.net" || r.Host == "www.huseynov.net" {
 		tpl.ExecuteTemplate(w, "tarlan.gohtml", nil)
+	} else if r.Host == "www.huseynov.net" {
+		http.Redirect(w, r, "https://huseynov.net:443"+r.RequestURI, http.StatusMovedPermanently)
 	} else if r.Host == "kamran.huseynov.net" || r.Host == "www.kamran.huseynov.net" {
 		tpl.ExecuteTemplate(w, "kamran.gohtml", nil)
 	} else {
@@ -45,6 +47,10 @@ func Instance(w http.ResponseWriter, r *http.Request) {
 	io.WriteString(w, getInstance())
 }
 
+func redirectTLS(w http.ResponseWriter, r *http.Request) {
+	http.Redirect(w, r, "https://huseynov.net:443"+r.RequestURI, http.StatusMovedPermanently)
+}
+
 func main() {
 	fh := http.FileServer(http.Dir("./content"))
 
@@ -56,6 +62,12 @@ func main() {
 	http.Handle("/img/", fh)
 	http.Handle("/js/", fh)
 	http.Handle("/scss/", fh)
+
+	go func() {
+		if err := http.ListenAndServe(":80", http.HandlerFunc(redirectTLS)); err != nil {
+			log.Fatalln(err)
+		}
+	}()
 
 	if err := http.ListenAndServeTLS(":443", "fullchain.pem", "privkey.pem", nil); err != nil {
 		log.Fatalln(err)
