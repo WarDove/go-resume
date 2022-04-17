@@ -54,6 +54,10 @@ func redirectTLS(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fh := http.FileServer(http.Dir("./content"))
 
+	// TODO Change html templates by adding a prefix to resources
+	// so we can use splitPrefix for serving files in a folder
+	// and replace the lines below with a short statement
+
 	http.HandleFunc("/", Resume)
 	http.HandleFunc("/instance", Instance)
 	http.Handle("/css/", fh)
