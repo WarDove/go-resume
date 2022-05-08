@@ -47,7 +47,8 @@ func Instance(w http.ResponseWriter, r *http.Request) {
 }
 
 func redirectTLS(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "https://"+r.Host+r.RequestURI, http.StatusMovedPermanently)
+	//http.Redirect(w, r, "https://"+r.Host+r.RequestURI, http.StatusMovedPermanently)
+	io.WriteString(w, "hello there")
 }
 
 func main() {
