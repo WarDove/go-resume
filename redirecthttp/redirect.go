@@ -6,12 +6,14 @@ import (
 )
 
 func redirectTLS(w http.ResponseWriter, r *http.Request) {
-	http.Redirect(w, r, "https://"+r.Host+r.RequestURI, http.StatusMovedPermanently)
+	http.Redirect(w, r, "https://"+r.Host+":443"+r.RequestURI, http.StatusMovedPermanently)
 
 }
 func main() {
 
-	if err := http.ListenAndServe(":80", http.HandlerFunc(redirectTLS)); err != nil {
+	http.HandleFunc("/", redirectTLS)
+
+	if err := http.ListenAndServe(":80", nil); err != nil {
 		log.Fatalln(err)
 	}
 
