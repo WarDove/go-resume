@@ -25,7 +25,7 @@ pipeline{
                         ssh-keyscan -t rsa,dsa ec2-18-159-107-160.eu-central-1.compute.amazonaws.com >> ~/.ssh/known_hosts
                         ssh ubuntu@ec2-18-159-107-160.eu-central-1.compute.amazonaws.com "sudo systemctl stop ilu redirect"
                         tar cvzf - main redirect | ssh ubuntu@ec2-18-159-107-160.eu-central-1.compute.amazonaws.com "cd /http; tar xvzf -"
-                        ssh ubuntu@ec2-18-159-107-160.eu-central-1.compute.amazonaws.com "chmod +x main redirect; sudo systemctl start ilu redirect"
+                        ssh ubuntu@ec2-18-159-107-160.eu-central-1.compute.amazonaws.com "chmod +x main redirect; sudo systemctl start ilu"
                     '''
                 }    
             }
