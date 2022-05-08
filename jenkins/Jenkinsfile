@@ -1,8 +1,7 @@
 pipeline{
     agent any
     stages{
-        stage("build"){
-            
+        stage("build"){            
             tools {
             go 'golang 1.18.1'
             }
@@ -37,3 +36,4 @@ pipeline{
         }
     }
 }
+ 
