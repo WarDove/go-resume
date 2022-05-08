@@ -1,38 +1,31 @@
 pipeline{
     agent any
     stages{
-        stage("build"){            
+        stage("BUILD"){            
             tools {
             go 'golang 1.18.1'
             }
 
             steps{
-                echo "========Building Go app========"
+                echo "======== BUILDING GO APP ========"
                 sh "ls -la"
                 sh "env GOOS=linux GOARCH=arm64 go build main.go"
             }
-            post{
-                always{
-                    echo "========always========"
-                }
-                success{
-                    echo "========A executed successfully========"
-                }
-                failure{
-                    echo "========A execution failed========"
-                }
+        }   
+
+        stage("DEPLOY EC2"){            
+            steps{
+                sshagent(credentials: ['aws-tarlan-goresume-ec2']) {                    
+                    echo "======== DEPLOYING MAIN FILE ========"
+                    sh '''
+                        [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
+                        ssh-keyscan -t rsa,dsa ec2-18-159-107-160.eu-central-1.compute.amazonaws.com >> ~/.ssh/known_hosts
+                        ssh ubuntu@ec2-18-159-107-160.eu-central-1.compute.amazonaws.com "sudo systemctl stop ilu"
+                        scp main ubuntu@ec2-18-159-107-160.eu-central-1.compute.amazonaws.com:/http/
+                        ssh ubuntu@ec2-18-159-107-160.eu-central-1.compute.amazonaws.com "chmod +x main; sudo systemctl start ilu"
+                    '''
+                }    
             }
-        }
-    }
-    post{
-        always{
-            echo "========always========"
-        }
-        success{
-            echo "========pipeline executed successfully ========"
-        }
-        failure{
-            echo "========pipeline execution failed========"
         }
     }
 }
