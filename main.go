@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 )
+
 var tpl *template.Template
 
 func init() {
@@ -22,8 +23,6 @@ func checkErr(err error) {
 func Resume(w http.ResponseWriter, r *http.Request) {
 	if r.Host == "huseynov.net" || r.Host == "www.huseynov.net" {
 		tpl.ExecuteTemplate(w, "tarlan.gohtml", nil)
-	} else if r.Host == "www.huseynov.net" {
-		http.Redirect(w, r, "https://huseynov.net:443"+r.RequestURI, http.StatusMovedPermanently)
 	} else if r.Host == "kamran.huseynov.net" || r.Host == "www.kamran.huseynov.net" {
 		tpl.ExecuteTemplate(w, "kamran.gohtml", nil)
 	} else {
@@ -53,10 +52,6 @@ func redirectTLS(w http.ResponseWriter, r *http.Request) {
 func main() {
 	fh := http.FileServer(http.Dir("./content"))
 
-	// TODO Change html templates by adding a prefix to resources
-	// so we can use splitPrefix for serving files in a folder
-	// and replace the lines below with a short statement
-
 	http.HandleFunc("/", Resume)
 	http.HandleFunc("/instance", Instance)
 	http.Handle("/css/", fh)
@@ -65,12 +60,6 @@ func main() {
 	http.Handle("/img/", fh)
 	http.Handle("/js/", fh)
 	http.Handle("/scss/", fh)
-
-	go func() {
-		if err := http.ListenAndServe(":80", http.HandlerFunc(redirectTLS)); err != nil {
-			log.Fatalln(err)
-		}
-	}()
 
 	if err := http.ListenAndServeTLS(":443", "fullchain.pem", "privkey.pem", nil); err != nil {
 		log.Fatalln(err)
