@@ -23,11 +23,12 @@ func checkErr(err error) {
 func Resume(w http.ResponseWriter, r *http.Request) {
 	if r.Host == "huseynov.net" || r.Host == "www.huseynov.net" {
 		tpl.ExecuteTemplate(w, "tarlan.gohtml", nil)
-	} else if r.Host == "kamran.huseynov.net" || r.Host == "www.kamran.huseynov.net" {
-		tpl.ExecuteTemplate(w, "kamran.gohtml", nil)
 	} else {
 		http.Error(w, http.StatusText(http.StatusNotFound), http.StatusNotFound)
 	}
+
+	//} else if r.Host == "kamran.huseynov.net" || r.Host == "www.kamran.huseynov.net" {
+	//tpl.ExecuteTemplate(w, "kamran.gohtml", nil)
 
 }
 func getInstance() string {
@@ -60,6 +61,12 @@ func main() {
 	http.Handle("/img/", fh)
 	http.Handle("/js/", fh)
 	http.Handle("/scss/", fh)
+
+	go func() {
+		if err := http.ListenAndServe(":80", http.HandlerFunc(redirectTLS)); err != nil {
+			log.Fatalln(err)
+		}
+	}()
 
 	if err := http.ListenAndServeTLS(":443", "fullchain.pem", "privkey.pem", nil); err != nil {
 		log.Fatalln(err)
