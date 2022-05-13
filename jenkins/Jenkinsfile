@@ -23,7 +23,7 @@ pipeline{
                     sh '''
                         [ -d ~/.ssh ] || mkdir ~/.ssh && chmod 0700 ~/.ssh
                         ssh-keyscan -t rsa,dsa ec2-3-121-225-232.eu-central-1.compute.amazonaws.com >> ~/.ssh/known_hosts
-                        tar cvzf - main redirect | ssh ubuntu@ec2-18-159-107-160.eu-central-1.compute.amazonaws.com "cd /http; tar xvzf -"
+                        tar cvzf - main redirect | ssh ubuntu@ec2-3-121-225-232.eu-central-1.compute.amazonaws.com "cd /http; tar xvzf -"
                         ssh ubuntu@ec2-3-121-225-232.eu-central-1.compute.amazonaws.com "chmod +x main redirect; sudo systemctl start ilu"
                     '''
                 }    
